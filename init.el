@@ -88,6 +88,7 @@
 
 (general-define-key
  :states '(normal visual insert emacs)
+ :keymaps '(dired-mode-map compilation-mode-map)
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  "SPC" 'helm-M-x
@@ -112,6 +113,7 @@
 
 (general-define-key
  :states '(normal visual)
+ :keymaps '(dired-mode-map compilation-mode-map)
  :prefix "SPC"
  "cl" 'comment-or-uncomment-region
  "bb" 'helm-buffers-list
