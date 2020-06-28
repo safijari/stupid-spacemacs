@@ -1,11 +1,22 @@
 (load "~/.emacs.d/els/setup_packaging.el")
-
+(defalias 'yes-or-no-p 'y-or-n-p)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+(use-package general :ensure t)
 (use-package nord-theme :ensure t)
 
 (use-package magit :ensure t)
+
+
+(use-package evil :ensure t
+  :init
+  (setq evil-move-cursor-back nil)
+  (setq evil-normal-state-cursor '(box "gray"))
+  )
+(evil-mode 1)
+
+
 (use-package evil-magit
   :after magit evil
   :ensure t)
@@ -33,7 +44,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(use-package general :ensure t)
 
 (use-package helm
   :ensure t)
@@ -43,6 +53,7 @@
  "TAB" 'helm-execute-persistent-action)
 
 (use-package projectile
+  :init (projectile-global-mode)
   :config (setq projectile-enable-caching t)
   :ensure t)
 
@@ -50,23 +61,9 @@
 (use-package helm-projectile :ensure t)
 
 
-;; (use-package smooth-scrolling :ensure t
-;;   :config
-;;   (smooth-scrolling-mode 1)
-;;   (setq smooth-scroll/vs
-;;   )
-(use-package sublimity :ensure t)
-;; (use-package sublimity-scroll :ensure t)
-
 ;; evil settings
-(use-package evil :ensure t
-  :init
-  (setq evil-move-cursor-back nil)
-  (setq evil-normal-state-cursor '(box "gray"))
-  )
-(evil-mode 1)
-
-(use-package treemacs :ensure t)
+(use-package treemacs
+  :ensure t)
 (use-package treemacs-evil
   :after treemacs evil
   :ensure t
@@ -169,11 +166,6 @@
 )
 
 
-;; (general-define-key :map helm-map
-;; 	 "C-j" 'helm-next-line
-;; 	 "C-k" 'helm-previous-line
-;; 	 )
-
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
 
@@ -182,7 +174,7 @@
 
 
 (use-package anaconda-mode :ensure t)
-
+(use-package pyvenv :ensure t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -190,9 +182,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sublimity-scroll sublimity treemacs-icons-dired treemacs-magit treemacs-projectile treemacs-evil evil-surround anaconda-mode ## helm-projectile projectile evil-magit magit treemacs helm-swoop doom-modeline nord-theme winum which-key-posframe smooth-scrolling key-chord helm general which-key company carbon-now-sh evil)))
- '(pixel-scroll-mode t)
- '(smooth-scrolling-mode t))
+    (pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
