@@ -3,6 +3,14 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+(defun helm-jump-in-buffer ()
+  "Jump in buffer using `imenu' facilities and helm."
+  (interactive)
+  (call-interactively
+   (cond
+    ((eq major-mode 'org-mode) 'helm-org-in-buffer-headings)
+    (t 'helm-semantic-or-imenu))))
+
 (recentf-mode 1)
 (setq recentf-max-menu-items 50)
 (setq recentf-max-saved-items 50)
@@ -51,13 +59,24 @@
 
 
 (use-package helm
-  :init (helm-mode)
+  :init (helm-mode) (helm-autoresize-mode)
   :config
   (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
+  (setq helm-autoresize-max-height 135
+	helm-autoresize-min-height 135)
+  :ensure t)
+
+(use-package helm-org
+  :ensure t)
+
+(use-package org-bullets
+  :config
+  (add-hook 'org-mode-hook 'org-bullets-mode)
+  (setq org-bullets-bullet-list '("◉" "○" "►" "◇" "◎" ))
   :ensure t)
 
 (general-define-key
- :keymaps 'helm-find-files-map
+ :keymaps 'helm-map
  "TAB" 'helm-execute-persistent-action)
 
 (use-package projectile
@@ -69,6 +88,7 @@
   :config
   (setq helm-swoop-split-with-multiple-windows t)
   (setq helm-swoop-pre-input-function (lambda () ""))
+  (setq helm-swoop-speed-or-color t)
   :ensure t)
 (use-package helm-projectile :ensure t)
 
@@ -179,7 +199,8 @@
  "pb" 'helm-projectile-switch-to-buffer
  "pf" 'helm-projectile-find-file
  "ff" 'helm-find-files
- "ji" 'helm-imenu
+ "ji" 'helm-jump-in-buffer
+ "oi" 'helm-org-agenda-files-headings
  "+" 'text-scale-adjust
 )
 
@@ -190,18 +211,14 @@
 (define-key company-active-map (kbd "C-k") 'company-select-previous)
 
 
-(use-package org
-  :config
-  (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
-  (setq org-todo-keyword-faces
-        '(("TODO" . (:foreground "red" :weight bold))
-          ("DOINGNOW" . (:foreground "yellow"))
-          ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
-          ("DELEGATED" . "pink")
-          ("NEXT" . "#008080")))
-  (setq org-bullets-bullet-list '("◉" "○" "►" "◇" "◎" ))
-  )
+(setq org-todo-keywords
+    '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+(setq org-todo-keyword-faces
+    '(("TODO" . (:foreground "red" :weight bold))
+	("DOINGNOW" . (:foreground "yellow"))
+	("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
+	("DELEGATED" . "pink")
+	("NEXT" . "#008080")))
 
 
 (use-package evil-org
@@ -232,9 +249,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    (#("/home/jari/Dropbox/org/daily_tracker.org" 0 40
+       (match-part "/home/jari/Dropbox/org/daily_tracker.org")))))
  '(package-selected-packages
    (quote
-    (evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
