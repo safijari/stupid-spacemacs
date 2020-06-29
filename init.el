@@ -68,6 +68,7 @@
 (use-package helm-swoop
   :config
   (setq helm-swoop-split-with-multiple-windows t)
+  (setq helm-swoop-pre-input-function (lambda () ""))
   :ensure t)
 (use-package helm-projectile :ensure t)
 
@@ -223,6 +224,8 @@
 (load "~/.emacs.d/els/popup_tip.el")
 
 (set-default-font "DejaVu Sans Mono 14")
+
+(setq nlinum-format "%4d\u2502 ")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
