@@ -3,7 +3,12 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 
+(recentf-mode 1)
+(setq recentf-max-menu-items 50)
+(setq recentf-max-saved-items 50)
+
 (use-package general :ensure t)
+(use-package all-the-icons)
 (use-package nord-theme :ensure t)
 
 (use-package magit :ensure t)
@@ -46,6 +51,9 @@
 
 
 (use-package helm
+  :init (helm-mode)
+  :config
+  (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
   :ensure t)
 
 (general-define-key
@@ -57,7 +65,10 @@
   :config (setq projectile-enable-caching t)
   :ensure t)
 
-(use-package helm-swoop :ensure t)
+(use-package helm-swoop
+  :config
+  (setq helm-swoop-split-with-multiple-windows t)
+  :ensure t)
 (use-package helm-projectile :ensure t)
 
 
@@ -102,7 +113,9 @@
   )
 
 
-(global-linum-mode)
+(use-package nlinum :ensure t)
+
+(global-nlinum-mode)
 
 
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
@@ -126,7 +139,8 @@
  "wk" 'evil-window-up
  "fs" 'save-buffer
  "qq" 'evil-quit-all
- "fr" 'load-file "~/.emacs"
+ "fr" 'load-file "~/.emacs.d/init.el"
+ ;; "fed" 'open-file "~/.emacs.d/init.el"
 )
 
 
@@ -140,9 +154,9 @@
 (use-package carbon-now-sh :ensure t)
 
 (general-define-key
- :states '(normal visual emacs)
+ :states '(normal visual emacs treemacs)
  :prefix "SPC"
- "bb" 'helm-buffers-list
+ "bb" 'helm-mini
  "bp" 'previous-buffer
  "bn" 'next-buffer
  "bd" 'kill-buffer
@@ -155,6 +169,7 @@
  "7" 'winum-select-window-7
  "8" 'winum-select-window-8
  "9" 'winum-select-window-9
+ "0" 'treemacs-select-window
  "ss" 'helm-swoop
  "gs" 'magit-status
  "gb" 'magit-blame
@@ -163,8 +178,9 @@
  "pb" 'helm-projectile-switch-to-buffer
  "pf" 'helm-projectile-find-file
  "ff" 'helm-find-files
+ "ji" 'helm-imenu
+ "+" 'text-scale-adjust
 )
-
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
@@ -173,8 +189,41 @@
 (define-key company-active-map (kbd "C-k") 'company-select-previous)
 
 
+(use-package org
+  :config
+  (setq org-todo-keywords
+        '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+  (setq org-todo-keyword-faces
+        '(("TODO" . (:foreground "red" :weight bold))
+          ("DOINGNOW" . (:foreground "yellow"))
+          ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
+          ("DELEGATED" . "pink")
+          ("NEXT" . "#008080")))
+  (setq org-bullets-bullet-list '("◉" "○" "►" "◇" "◎" ))
+  )
+
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+
+
+
 (use-package anaconda-mode :ensure t)
 (use-package pyvenv :ensure t)
+
+(load "~/.emacs.d/els/popup_tip.el")
+
+(set-default-font "DejaVu Sans Mono 14")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -182,7 +231,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
