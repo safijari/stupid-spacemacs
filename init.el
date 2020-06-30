@@ -1,7 +1,14 @@
-(load "~/.emacs.d/els/setup_packaging.el")
+(setq config-dir "~/.emacs.d")
+(setq els-dir (concat config-dir "/els"))
+(setq config-path (concat config-dir "/init.el"))
+(defun load-subconfig (name)
+  (load-file (concat els-dir "/" name)))
+(load-subconfig "setup_packaging.el")
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(toggle-scroll-bar -1)
 
 (defun helm-jump-in-buffer ()
   "Jump in buffer using `imenu' facilities and helm."
@@ -66,7 +73,16 @@
 	helm-autoresize-min-height 135)
   :ensure t)
 
+(use-package helm-ag
+  :after helm
+  :ensure t)
+
 (use-package helm-org
+  :after helm org
+  :ensure t)
+
+(use-package helm-company
+  :after company helm
   :ensure t)
 
 (use-package org-bullets
@@ -129,7 +145,8 @@
 
 (use-package company :ensure t
   :config
-  (setq company-idle-delay 0.1)
+  (setq company-idle-delay 0.075)
+  (setq company-minimum-prefix-length 1)
   :init (global-company-mode)
   )
 
@@ -145,6 +162,10 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
 (load-theme 'nord t)
 
+(defun load-config ()
+  (interactive)
+  (load-file "~/.emacs.d/init.el")
+  )
 
 (general-define-key
  :states '(normal visual emacs)
@@ -154,14 +175,16 @@
  "wm" 'toggle-maximize-buffer
  "w/" 'split-window-horizontally
  "ws" 'split-window-vertically
+ "wd" 'delete-window
  "wl" 'evil-window-right
  "wh" 'evil-window-left
  "wj" 'evil-window-down
  "wk" 'evil-window-up
  "fs" 'save-buffer
  "qq" 'evil-quit-all
- "fr" 'load-file "~/.emacs.d/init.el"
- ;; "fed" 'open-file "~/.emacs.d/init.el"
+ "fr" 'load-config
+ "/"  'helm-projectile-ag
+ "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
 )
 
 
@@ -173,6 +196,13 @@
   :ensure t)
 
 (use-package carbon-now-sh :ensure t)
+
+(general-define-key
+ :keymaps 'org-mode-map
+ :states '(normal)
+ :prefix "SPC"
+ "t" 'org-todo
+ )
 
 (general-define-key
  :states '(normal visual emacs treemacs)
@@ -235,14 +265,26 @@
 
 
 
-(use-package anaconda-mode :ensure t)
+;; (use-package anaconda-mode :ensure t)
 (use-package pyvenv :ensure t)
+(use-package flycheck :ensure t)
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable))
+
+(when (load "flycheck" t t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
 
 (load "~/.emacs.d/els/popup_tip.el")
 
+;; Setting font name/size
 (set-default-font "DejaVu Sans Mono 14")
 
-(setq nlinum-format "%4d\u2502 ")
+(setq nlinum-format "%4d ")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -255,7 +297,7 @@
        (match-part "/home/jari/Dropbox/org/daily_tracker.org")))))
  '(package-selected-packages
    (quote
-    (org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
