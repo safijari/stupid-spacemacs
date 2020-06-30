@@ -36,6 +36,9 @@
   )
 (evil-mode 1)
 
+(use-package evil-collection
+  :init (evil-collection-init)
+  :ensure t)
 
 (use-package evil-magit
   :after magit evil
@@ -97,8 +100,18 @@
 
 (use-package projectile
   :init (projectile-global-mode)
-  :config (setq projectile-enable-caching t)
-  :ensure t)
+  :config
+  (setq projectile-completion-system 'helm
+        projectile-enable-caching    t
+        projectile-globally-ignored-files
+        (append '(".pyc"
+                  "~"
+		  "#")
+                projectile-globally-ignored-files))
+  (projectile-mode)
+  (helm-projectile-on)
+  (defconst projectile-mode-line-lighter " P"))
+
 
 (use-package helm-swoop
   :config
@@ -210,7 +223,7 @@
  "bb" 'helm-mini
  "bp" 'previous-buffer
  "bn" 'next-buffer
- "bd" 'kill-buffer
+ "bd" 'kill-current-buffer
  "1" 'winum-select-window-1
  "2" 'winum-select-window-2
  "3" 'winum-select-window-3
@@ -297,7 +310,7 @@
        (match-part "/home/jari/Dropbox/org/daily_tracker.org")))))
  '(package-selected-packages
    (quote
-    (helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
