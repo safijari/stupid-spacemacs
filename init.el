@@ -36,9 +36,9 @@
   )
 (evil-mode 1)
 
-(use-package evil-collection
-  :init (evil-collection-init)
-  :ensure t)
+;; (use-package evil-collection
+;;   :init (evil-collection-init)
+;;   :ensure t)
 
 (use-package evil-magit
   :after magit evil
@@ -72,8 +72,9 @@
   :init (helm-mode) (helm-autoresize-mode)
   :config
   (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-  (setq helm-autoresize-max-height 135
-	helm-autoresize-min-height 135)
+  (setq helm-autoresize-max-height 35
+	helm-autoresize-min-height 35
+	)
   :ensure t)
 
 (use-package helm-ag
@@ -82,10 +83,6 @@
 
 (use-package helm-org
   :after helm org
-  :ensure t)
-
-(use-package helm-company
-  :after company helm
   :ensure t)
 
 (use-package org-bullets
@@ -158,9 +155,14 @@
 
 (use-package company :ensure t
   :config
-  (setq company-idle-delay 0.075)
-  (setq company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
   :init (global-company-mode)
+  :general
+  ;; (:keymaps 'company-active-map
+  ;; 	    "RET" 'company-complete-selection
+  ;; 	    "TAB" 'company-complete-selection
+  ;; 	    )
   )
 
 
@@ -275,6 +277,9 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
+(setq org-agenda-files
+       '("~/org/daily_tracker.org"))
+
 
 
 
@@ -298,16 +303,14 @@
 
 (setq nlinum-format "%4d ")
 
+(set-face-attribute 'helm-source-header nil :height 1.0)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   (quote
-    (#("/home/jari/Dropbox/org/daily_tracker.org" 0 40
-       (match-part "/home/jari/Dropbox/org/daily_tracker.org")))))
+ 
  '(package-selected-packages
    (quote
     (evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
