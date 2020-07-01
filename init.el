@@ -134,6 +134,9 @@
   :after treemacs magit
   :ensure t)
 
+(use-package persp-mode
+  :ensure t)
+
 (use-package treemacs-icons-dired
   :ensure t)
 
@@ -185,6 +188,7 @@
 
 (general-define-key
  :states '(normal visual emacs)
+ :keymaps 'global-map
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  "SPC" 'helm-M-x
@@ -297,8 +301,6 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 
-(load "~/.emacs.d/els/popup_tip.el")
-
 ;; Setting font name/size
 (set-default-font "DejaVu Sans Mono 14")
 
@@ -306,15 +308,18 @@
 
 (set-face-attribute 'helm-source-header nil :height 1.0)
 
+(visual-line-mode)
+
+(load-subconfig "cc.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- 
  '(package-selected-packages
    (quote
-    (evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
