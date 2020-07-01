@@ -30,7 +30,8 @@
 (use-package magit
   :general
   (:prefix "C-c"
-	   "," 'with-editor-finish)
+	   "," 'with-editor-finish
+	   "k" 'with-editor-cancel)
   :ensure t)
 
 
