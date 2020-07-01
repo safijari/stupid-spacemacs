@@ -10,6 +10,8 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
+(setq inhibit-startup-screen t)
+
 
 (defun helm-jump-in-buffer ()
   "Jump in buffer using `imenu' facilities and helm."
@@ -164,7 +166,7 @@
 
 (use-package company :ensure t
   :config
-  (setq company-idle-delay 0.1)
+  (setq company-idle-delay 0.2)
   (setq company-minimum-prefix-length 2)
   :init (global-company-mode)
   :general
@@ -172,6 +174,11 @@
   ;; 	    "RET" 'company-complete-selection
   ;; 	    "TAB" 'company-complete-selection
   ;; 	    )
+  )
+
+(use-package company-box
+  :hook (company-mode . company-box-mode)
+  :ensure t
   )
 
 
@@ -184,6 +191,10 @@
 
 
 (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
+
+(if (display-graphic-p) 
+    (enable-theme 'nord))
+
 (load-theme 'nord t)
 
 (defun load-config ()
@@ -193,7 +204,6 @@
 
 (general-define-key
  :states '(normal visual emacs)
- :keymaps 'global-map
  :prefix "SPC"
  :non-normal-prefix "M-SPC"
  "SPC" 'helm-M-x
@@ -206,10 +216,18 @@
  "wj" 'evil-window-down
  "wk" 'evil-window-up
  "fs" 'save-buffer
- "qq" 'evil-quit-all
+ "qq" 'evil-quit
  "fr" 'load-config
  "/"  'helm-projectile-ag
  "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
+)
+
+(general-define-key
+ :states '(normal visual emacs)
+ :prefix "C-c"
+ "gg" 'evil-goto-definition
+ "b" 'beginning-of-defun
+ "e" 'end-of-defun
 )
 
 
@@ -221,13 +239,6 @@
   :ensure t)
 
 (use-package carbon-now-sh :ensure t)
-
-(general-define-key
- :keymaps 'org-mode-map
- :states '(normal)
- :prefix "SPC"
- "t" 'org-todo
- )
 
 (general-define-key
  :states '(normal visual emacs treemacs)
@@ -257,6 +268,8 @@
  "ji" 'helm-jump-in-buffer
  "oi" 'helm-org-agenda-files-headings
  "+" 'text-scale-adjust
+ "fb" 'beginning-of-defun
+ "fn" 'end-of-defun
 )
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
@@ -280,16 +293,27 @@
   :ensure t
   :after org
   :config
+  (setq evil-org-use-additional-insert t)
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
+	    (lambda ()
+	      (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  (evil-org-agenda-set-keys)
+
+
+  (general-define-key
+   :keymaps 'org-mode-map
+   :states '(normal)
+   :prefix ","
+   "t" 'org-todo
+   )
+
+  )
 
 (setq org-agenda-files
        '("~/org/daily_tracker.org"))
-
+(add-hook 'org-mode-hook '(lambda () (company-mode -1)))
 
 
 
@@ -304,6 +328,7 @@
 (when (load "flycheck" t t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+(setq elpy-rpc-virtualenv-path 'current)
 
 
 ;; Setting font name/size
@@ -316,6 +341,17 @@
 (visual-line-mode)
 
 (load-subconfig "cc.el")
+
+(setq doom-modeline-buffer-file-name-style 'file-name)
+
+(set-face-attribute 'mode-line nil :height 120)
+(set-face-attribute 'mode-line-inactive nil :height 120)
+
+(setq flycheck-temp-prefix "/tmp/flycheck")
+
+(global-auto-revert-mode t)
+
+;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
