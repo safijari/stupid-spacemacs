@@ -85,6 +85,11 @@
 	)
   :ensure t)
 
+(setq helm-display-function 'helm-display-buffer-in-own-frame
+        helm-display-buffer-reuse-frame t
+        helm-use-undecorated-frame-option t
+	helm-frame-alpha 50)
+
 (use-package helm-ag
   :after helm
   :ensure t)
@@ -128,23 +133,10 @@
 
 
 ;; evil settings
-(use-package treemacs
-  :ensure t)
-(use-package treemacs-evil
-  :after treemacs evil
-  :ensure t
-  )
-(use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+(load-subconfig "treemacs.el")
+;; (load-subconfig "neotree.el")
 
 (use-package persp-mode
-  :ensure t)
-
-(use-package treemacs-icons-dired
   :ensure t)
 
 (use-package winum :ensure t
@@ -152,7 +144,7 @@
 
 (use-package key-chord :ensure t
   :init
-  (setq key-chord-two-keys-delay 0.25)
+  (setq key-chord-two-keys-delay 0.1)
   (key-chord-define evil-insert-state-map "fd" 'evil-normal-state)
   (key-chord-mode 1)
   )
@@ -176,10 +168,10 @@
   ;; 	    )
   )
 
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :ensure t
-  )
+;; (use-package company-box
+;;   :hook (company-mode . company-box-mode)
+;;   :ensure t
+;;   )
 
 
 (use-package nlinum :ensure t)
@@ -220,6 +212,7 @@
  "fr" 'load-config
  "/"  'helm-projectile-ag
  "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
+ "v" 'describe-variable
 )
 
 (general-define-key
@@ -260,7 +253,6 @@
  "ss" 'helm-swoop
  "gs" 'magit-status
  "gb" 'magit-blame
- "pt" 'treemacs
  "pp" 'helm-projectile-switch-project
  "pb" 'helm-projectile-switch-to-buffer
  "pf" 'helm-projectile-find-file
@@ -270,6 +262,7 @@
  "+" 'text-scale-adjust
  "fb" 'beginning-of-defun
  "fn" 'end-of-defun
+ "pt" 'treemacs
 )
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
