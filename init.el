@@ -27,7 +27,11 @@
 (use-package all-the-icons)
 (use-package nord-theme :ensure t)
 
-(use-package magit :ensure t)
+(use-package magit
+  :general
+  (:prefix "C-c"
+	   "," 'with-editor-finish)
+  :ensure t)
 
 
 (use-package evil :ensure t
