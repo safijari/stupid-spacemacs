@@ -4,6 +4,7 @@
 (defun load-subconfig (name)
   (load-file (concat els-dir "/" name)))
 (load-subconfig "setup_packaging.el")
+(load-subconfig "smooth_scroll.el")
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (menu-bar-mode -1)
