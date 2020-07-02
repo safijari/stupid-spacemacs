@@ -12,6 +12,11 @@
 (toggle-scroll-bar -1)
 (setq inhibit-startup-screen t)
 
+(setq backup-directory-alist
+	`((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+	`((".*" ,temporary-file-directory t)))
+
 
 (defun helm-jump-in-buffer ()
   "Jump in buffer using `imenu' facilities and helm."
@@ -27,7 +32,10 @@
 
 (use-package general :ensure t)
 (use-package all-the-icons)
-(use-package nord-theme :ensure t)
+
+;; themes
+;; (load-subconfig "themes/nord.el")
+(load-subconfig "themes/dracula.el")
 
 (use-package magit
   :general
@@ -41,6 +49,10 @@
   :init
   (setq evil-move-cursor-back nil)
   (setq evil-normal-state-cursor '(box "gray"))
+  :general
+  (:states '(normal emacs visual)
+	   "j" 'evil-next-visual-line
+	   "k" 'evil-previous-visual-line)
   )
 (evil-mode 1)
 
@@ -88,7 +100,7 @@
 (setq helm-display-function 'helm-display-buffer-in-own-frame
         helm-display-buffer-reuse-frame t
         helm-use-undecorated-frame-option t
-	helm-frame-alpha 50)
+	)
 
 (use-package helm-ag
   :after helm
@@ -134,6 +146,10 @@
 
 ;; evil settings
 (load-subconfig "treemacs.el")
+(evil-define-key 'treemacs treemacs-mode-map (kbd "h") #'treemacs-TAB-action)
+(evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-TAB-action)
+
+
 ;; (load-subconfig "neotree.el")
 
 (use-package persp-mode
@@ -183,11 +199,6 @@
 
 
 (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
-
-(if (display-graphic-p) 
-    (enable-theme 'nord))
-
-(load-theme 'nord t)
 
 (defun load-config ()
   (interactive)
@@ -343,6 +354,10 @@
 (setq flycheck-temp-prefix "/tmp/flycheck")
 
 (global-auto-revert-mode t)
+(global-visual-line-mode)
+
+(use-package yaml-mode
+  :ensure t)
 
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
@@ -353,7 +368,9 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+ '(treemacs-follow-mode t)
+ '(treemacs-git-mode (quote simple)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
