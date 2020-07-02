@@ -158,12 +158,11 @@
 (use-package winum :ensure t
   :init (winum-mode) )
 
-(use-package key-chord :ensure t
-  :init
-  (setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "fd" 'evil-normal-state)
-  (key-chord-mode 1)
-  )
+(use-package evil-escape
+  :init (evil-escape-mode)
+  :config
+  (setq-default evil-escape-key-sequence "fd")
+  :ensure t)
 
 (use-package which-key
   :ensure t
@@ -224,6 +223,7 @@
  "/"  'helm-projectile-ag
  "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
  "v" 'describe-variable
+ "se" 'evil-iedit-state/iedit-mode
 )
 
 (general-define-key
@@ -359,6 +359,13 @@
 (use-package yaml-mode
   :ensure t)
 
+(use-package iedit
+  :ensure t)
+
+(use-package evil-iedit-state
+  :after evil iedit
+  :ensure t)
+
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
 (custom-set-variables
@@ -366,11 +373,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
-    (dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
- '(treemacs-follow-mode t)
- '(treemacs-git-mode (quote simple)))
+    (evil-escape evil-iedit-state edit-server persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
