@@ -10,7 +10,9 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
+(column-number-mode 1)
 (setq inhibit-startup-screen t)
+;; (electric-pair-mode)
 
 (setq backup-directory-alist
 	`((".*" . ,temporary-file-directory)))
@@ -36,6 +38,7 @@
 ;; themes
 ;; (load-subconfig "themes/nord.el")
 (load-subconfig "themes/dracula.el")
+;; (load-subconfig "themes/base16.el")
 
 (use-package magit
   :general
@@ -66,8 +69,9 @@
 
 (use-package evil-surround
   :after evil
-  :general (:states '(visual)
-	    "s" 'evil-surround-region)
+  :general (:states '(visual operator)
+  	    "s" 'evil-surround-region)
+  :config (global-evil-surround-mode 1)
   :ensure t)
 
 
@@ -366,6 +370,10 @@
   :after evil iedit
   :ensure t)
 
+(use-package smartparens
+  :init (smartparens-global-mode)
+  :ensure t)
+
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
 (custom-set-variables
@@ -373,10 +381,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-completion-style (quote emacs))
+ '(custom-safe-themes
+   (quote
+    ("2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
+ '(electric-pair-mode t)
  '(package-selected-packages
    (quote
-    (evil-escape evil-iedit-state edit-server persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode))))
+    (smartparens base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+ '(treemacs-follow-mode t)
+ '(treemacs-git-mode (quote simple)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
