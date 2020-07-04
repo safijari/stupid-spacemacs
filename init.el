@@ -222,6 +222,7 @@
  "wj" 'evil-window-down
  "wk" 'evil-window-up
  "fs" 'save-buffer
+ "fa" 'ranger
  "qq" 'evil-quit
  "fr" 'load-config
  "/"  'helm-projectile-ag
@@ -271,6 +272,7 @@
  "pp" 'helm-projectile-switch-project
  "pb" 'helm-projectile-switch-to-buffer
  "pf" 'helm-projectile-find-file
+ "pI" 'projectile-invalidate-cache
  "ff" 'helm-find-files
  "ji" 'helm-jump-in-buffer
  "oi" 'helm-org-agenda-files-headings
@@ -331,7 +333,12 @@
 (use-package elpy
   :ensure t
   :init
-  (elpy-enable))
+  (elpy-enable)
+  :general
+  (:prefix "C-c"
+	   "=" 'elpy-black-fix-code
+   )
+  )
 
 (when (load "flycheck" t t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
@@ -370,8 +377,10 @@
   :after evil iedit
   :ensure t)
 
-(use-package smartparens
-  :init (smartparens-global-mode)
+(use-package ranger
+  :config
+  (setq ranger-width-parents 0.25)
+  (setq ranger-width-preview 0.5)
   :ensure t)
 
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
@@ -387,9 +396,9 @@
  '(electric-pair-mode t)
  '(package-selected-packages
    (quote
-    (smartparens base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
- '(treemacs-follow-mode t)
- '(treemacs-git-mode (quote simple)))
+    (ranger smartparens base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+ '(persp-mode t nil (persp-mode))
+ '(treemacs-follow-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
