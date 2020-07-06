@@ -71,6 +71,7 @@
   :general (:states '(visual operator)
 		    "s" 'evil-surround-region)
   :config (global-evil-surround-mode 1)
+    (setq evil-symbol-word-search t)
   :ensure t)
 
 
@@ -215,6 +216,11 @@
  "qq" 'evil-quit
  "fr" 'load-config
  "/"  'helm-projectile-ag
+ "*"  '(lambda ()
+	 (interactive)
+	 (let
+	     ((helm-ag-insert-at-point 'symbol))
+	   (helm-projectile-ag)))
  "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
  "v" 'describe-variable
  "se" 'evil-iedit-state/iedit-mode
