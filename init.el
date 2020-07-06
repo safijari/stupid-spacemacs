@@ -15,9 +15,9 @@
 (electric-pair-mode 1)
 
 (setq backup-directory-alist
-	`((".*" . ,temporary-file-directory)))
+      `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
-	`((".*" ,temporary-file-directory t)))
+      `((".*" ,temporary-file-directory t)))
 
 (defun helm-jump-in-buffer ()
   "Jump in buffer using `imenu' facilities and helm."
@@ -69,7 +69,7 @@
 (use-package evil-surround
   :after evil
   :general (:states '(visual operator)
-  	    "s" 'evil-surround-region)
+		    "s" 'evil-surround-region)
   :config (global-evil-surround-mode 1)
   :ensure t)
 
@@ -80,12 +80,12 @@
 
 ;; https://gist.github.com/mads-hartmann/3402786#gistcomment-693878
 (defun toggle-maximize-buffer () "Maximize buffer"
-  (interactive)
-  (if (= 1 (length (window-list)))
-      (jump-to-register '_) 
-    (progn
-      (window-configuration-to-register '_)
-      (delete-other-windows))))
+       (interactive)
+       (if (= 1 (length (window-list)))
+	   (jump-to-register '_) 
+	 (progn
+	   (window-configuration-to-register '_)
+	   (delete-other-windows))))
 
 (eval-when-compile
   (require 'use-package))
@@ -101,9 +101,9 @@
   :ensure t)
 
 (setq helm-display-function 'helm-display-buffer-in-own-frame
-        helm-display-buffer-reuse-frame t
-        helm-use-undecorated-frame-option t
-	)
+      helm-display-buffer-reuse-frame t
+      helm-use-undecorated-frame-option t
+      )
 
 (use-package helm-ag
   :after helm
@@ -127,12 +127,12 @@
   :init (projectile-global-mode)
   :config
   (setq projectile-completion-system 'helm
-        projectile-enable-caching    t
-        projectile-globally-ignored-files
-        (append '(".pyc"
-                  "~"
+	projectile-enable-caching    t
+	projectile-globally-ignored-files
+	(append '(".pyc"
+		  "~"
 		  "#")
-                projectile-globally-ignored-files))
+		projectile-globally-ignored-files))
   (projectile-mode)
   (helm-projectile-on)
   (defconst projectile-mode-line-lighter " P"))
@@ -218,7 +218,7 @@
  "fe" '(lambda () (interactive) (find-file "~/.emacs.d/init.el"))
  "v" 'describe-variable
  "se" 'evil-iedit-state/iedit-mode
-)
+ )
 
 (general-define-key
  :states '(normal visual emacs)
@@ -226,14 +226,14 @@
  "gg" 'evil-goto-definition
  "b" 'beginning-of-defun
  "e" 'end-of-defun
-)
+ )
 
 
 (use-package evil-commentary
   :general
   (:prefix "SPC"
-  :states '(normal visual)
-  "cl" 'evil-commentary-line)
+	   :states '(normal visual)
+	   "cl" 'evil-commentary-line)
   :ensure t)
 
 (use-package carbon-now-sh :ensure t)
@@ -262,6 +262,7 @@
  "pb" 'helm-projectile-switch-to-buffer
  "pf" 'helm-projectile-find-file
  "pI" 'projectile-invalidate-cache
+ "pc" 'projectile-compile-project
  "ff" 'helm-find-files
  "ji" 'helm-jump-in-buffer
  "oi" 'helm-org-agenda-files-headings
@@ -269,7 +270,7 @@
  "fb" 'beginning-of-defun
  "fn" 'end-of-defun
  "pt" 'treemacs
-)
+ )
 
 (define-key helm-map (kbd "C-j") 'helm-next-line)
 (define-key helm-map (kbd "C-k") 'helm-previous-line)
@@ -279,9 +280,9 @@
 
 
 (setq org-todo-keywords
-    '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
+      '((sequence "TODO(t!)" "NEXT(n!)" "DOINGNOW(d!)" "BLOCKED(b!)" "TODELEGATE(g!)" "DELEGATED(D!)" "FOLLOWUP(f!)" "TICKLE(T!)" "|" "CANCELLED(c!)" "DONE(F!)")))
 (setq org-todo-keyword-faces
-    '(("TODO" . (:foreground "red" :weight bold))
+      '(("TODO" . (:foreground "red" :weight bold))
 	("DOINGNOW" . (:foreground "yellow"))
 	("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
 	("DELEGATED" . "pink")
@@ -300,18 +301,32 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 
+  (with-eval-after-load 'goto-chg
+    (defun goto-last-change-reverse ()
+      "Fix goto-last-change-reverse code that doesn't work properly"
+      (interactive)
+      ;; Make 'goto-last-change-reverse' look like 'goto-last-change'
+      (cond ((eq last-command this-command)
+	     (setq last-command 'goto-last-change)))
+      (setq this-command 'goto-last-change)
+      ;; FIXME: Fix so can pass in any number of previous argument
+      (goto-last-change '-1))
+
+    )
+
 
   (general-define-key
    :keymaps 'org-mode-map
    :states '(normal)
-   :prefix ","
+   :prefix "C-c"
    "t" 'org-todo
+   "," 'org-ctrl-c-ctrl-c
    )
 
   )
 
 (setq org-agenda-files
-       '("~/org/daily_tracker.org"))
+      '("~/org/daily_tracker.org"))
 (add-hook 'org-mode-hook '(lambda () (company-mode -1)))
 
 ;; (use-package anaconda-mode :ensure t)
@@ -324,7 +339,9 @@
   :general
   (:prefix "C-c"
 	   "=" 'elpy-black-fix-code
-   )
+	   )
+  :config (setq
+	   elpy-rpc-timeout 2)
   )
 
 (when (load "flycheck" t t)
