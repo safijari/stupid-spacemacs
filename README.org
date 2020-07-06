@@ -1,0 +1,10 @@
+* What is this?
+  This is my hand made emacs config that emulates all the parts of spacemacs I was used to. It is my current editor config and I will be slowly making additional changes/tweaks to it.
+
+* Why is this?
+  My spacemacs got really slow and I felt it was difficult for me to understand why or fix it reliably. Also updating spacemacs was always a gamble and every single time I ended up with a borked editor with subtle changes to functions I was very used to. This caused me to spend about two weeks of effort learning elisp and re-creating enough functionality of spacemacs so I could stop using spacmacs and start relying solely on my new and improved *stupid spacemacs*
+
+* Should I use this?
+  Honestly ... only if you hate yourself. There are no guarantees and the config is based entirely around my workflow.
+  
+  You *should* however (I think) use this to learn about how to make a lean and simple spacemacs like config.
