@@ -184,7 +184,7 @@
 
 ;; (use-package nlinum :ensure t)
 ;; (global-nlinum-mode)
-(display-line-numbers-mode 1)
+(global-display-line-numbers-mode 1)
 
 
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
