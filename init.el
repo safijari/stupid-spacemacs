@@ -180,21 +180,11 @@
   (setq company-minimum-prefix-length 2)
   :init (global-company-mode)
   :general
-  ;; (:keymaps 'company-active-map
-  ;; 	    "RET" 'company-complete-selection
-  ;; 	    "TAB" 'company-complete-selection
-  ;; 	    )
   )
 
-;; (use-package company-box
-;;   :hook (company-mode . company-box-mode)
-;;   :ensure t
-;;   )
-
-
-(use-package nlinum :ensure t)
-
-(global-nlinum-mode)
+;; (use-package nlinum :ensure t)
+;; (global-nlinum-mode)
+(display-line-numbers-mode 1)
 
 
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
