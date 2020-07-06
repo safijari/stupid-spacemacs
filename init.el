@@ -12,13 +12,12 @@
 (toggle-scroll-bar -1)
 (column-number-mode 1)
 (setq inhibit-startup-screen t)
-;; (electric-pair-mode)
+(electric-pair-mode 1)
 
 (setq backup-directory-alist
 	`((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
 	`((".*" ,temporary-file-directory t)))
-
 
 (defun helm-jump-in-buffer ()
   "Jump in buffer using `imenu' facilities and helm."
@@ -325,8 +324,6 @@
        '("~/org/daily_tracker.org"))
 (add-hook 'org-mode-hook '(lambda () (company-mode -1)))
 
-
-
 ;; (use-package anaconda-mode :ensure t)
 (use-package pyvenv :ensure t)
 (use-package flycheck :ensure t)
@@ -393,10 +390,9 @@
  '(custom-safe-themes
    (quote
     ("2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
- '(electric-pair-mode t)
  '(package-selected-packages
    (quote
-    (ranger smartparens base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+    (calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
  '(persp-mode t nil (persp-mode))
  '(treemacs-follow-mode t))
 (custom-set-faces
