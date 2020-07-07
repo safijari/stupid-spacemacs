@@ -32,11 +32,32 @@
 (setq recentf-max-saved-items 50)
 
 (use-package general :ensure t)
-(use-package all-the-icons)
+(use-package all-the-icons :ensure t)
+
+(use-package doom-themes :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(load-theme 'doom-city-lights t)
 
 ;; themes
 ;; (load-subconfig "themes/nord.el")
-(load-subconfig "themes/dracula.el")
+;; (load-subconfig "themes/dracula.el")
 ;; (load-subconfig "themes/base16.el")
 
 (use-package magit
@@ -383,6 +404,8 @@
 (use-package iedit
   :ensure t)
 
+(set-face-attribute 'iedit-occurrence t :inherit 'region)
+
 (use-package evil-iedit-state
   :after evil iedit
   :ensure t)
@@ -393,6 +416,9 @@
   (setq ranger-width-preview 0.5)
   :ensure t)
 
+
+;; (load-subconfig "elegance.el")
+
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
 (custom-set-variables
@@ -402,7 +428,8 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
+    ("632694fd8a835e85bcc8b7bb5c1df1a0164689bc6009864faed38a9142b97057" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
+ '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
     (calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
