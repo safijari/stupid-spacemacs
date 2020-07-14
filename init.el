@@ -100,9 +100,9 @@
 		    "s"
 		    'evil-surround-region) 
   :config (global-evil-surround-mode 1) 
-  (setq evil-symbol-word-search t) 
   :ensure t)
 
+(setq evil-symbol-word-search t)
 
 (use-package 
   doom-modeline 
@@ -316,7 +316,7 @@
 	     (setq last-command 'goto-last-change))) 
       (setq this-command 'goto-last-change)
       ;; FIXME: Fix so can pass in any number of previous argument
-      (goto-last-change '-1)))
+      (goto-last-change '-1))) 
   (general-define-key :keymaps 'org-mode-map 
 		      :states '(normal) 
 		      :prefix "C-c" 
@@ -411,6 +411,9 @@
 
 (load-subconfig "text_scale.el")
 
+(use-package 
+  string-inflection 
+  :ensure t)
 
 ;; (load-subconfig "elegance.el")
 
@@ -421,13 +424,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(custom-safe-themes
    (quote
     ("99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" "93ed23c504b202cf96ee591138b0012c295338f38046a1f3c14522d4a64d7308" "bf387180109d222aee6bb089db48ed38403a1e330c9ec69fe1f52460a8936b66" "912cac216b96560654f4f15a3a4d8ba47d9c604cbc3b04801e465fb67a0234f0" "2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" "dcdd1471fde79899ae47152d090e3551b889edf4b46f00df36d653adc2bf550d" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "632694fd8a835e85bcc8b7bb5c1df1a0164689bc6009864faed38a9142b97057" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
+ '(global-text-scale-mode t)
  '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
-    (json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+    (string-inflection json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
  '(persp-mode t nil (persp-mode))
  '(treemacs-follow-mode t))
 (custom-set-faces
