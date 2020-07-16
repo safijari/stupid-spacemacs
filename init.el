@@ -102,7 +102,7 @@
   :config (global-evil-surround-mode 1) 
   :ensure t)
 
-(setq evil-symbol-word-search t)
+(setq evil-symbol-word-search 't)
 
 (use-package 
   doom-modeline 
@@ -340,7 +340,8 @@
   :general (:keymaps 'python-mode-map 
 		     :prefix "C-c" 
 		     "="
-		     'elpy-black-fix-code) 
+		     'elpy-black-fix-code
+		     "gf" 'xref-find-references) 
   :config (setq elpy-rpc-timeout 2))
 
 (use-package 
@@ -415,7 +416,8 @@
   string-inflection 
   :ensure t)
 
-;; (load-subconfig "elegance.el")
+;; (load-subconfig "icons-in-term.el")
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
@@ -432,7 +434,7 @@
  '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
-    (string-inflection json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+    (nerd-fonts nerd-icons json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
  '(persp-mode t nil (persp-mode))
  '(treemacs-follow-mode t))
 (custom-set-faces

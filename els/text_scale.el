@@ -15,10 +15,10 @@
 (global-set-key (kbd "M-+") 
 		'(lambda () 
 		   (interactive) 
-		   (global-text-scale-adjust 1))) 
+		   (global-text-scale-adjust 0.5))) 
 (global-set-key (kbd "M--") 
 		'(lambda () 
 		   (interactive) 
-		   (global-text-scale-adjust -1)))
+		   (global-text-scale-adjust -0.5)))
 
 (global-text-scale-mode 1)
