@@ -102,7 +102,7 @@
   :config (global-evil-surround-mode 1) 
   :ensure t)
 
-(setq evil-symbol-word-search 't)
+(setq-default evil-symbol-word-search 'symbol)
 
 (use-package 
   doom-modeline 
