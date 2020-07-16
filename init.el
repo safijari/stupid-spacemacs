@@ -147,8 +147,21 @@
 (use-package 
   org-bullets 
   :config (add-hook 'org-mode-hook 'org-bullets-mode) 
-  (setq org-bullets-bullet-list '("◉" "○" "►" "◇" "◎" )) 
+  ;; (setq org-bullets-bullet-list '("◉" "○" "►" "◇" "✸" "✿" "◆")) 
+  (setq org-bullets-bullet-list '("◉" "☯" "○" "▶" "✜"))
+  (setq org-ellipsis "⤵")
+  :hook (org-mode . org-bullets-mode)
   :ensure t)
+
+;; 
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([-]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+(font-lock-add-keywords 'org-mode
+                        '(("^ *\\([+]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
+
+
 
 (general-define-key :keymaps 'helm-map 
 		    "TAB" 'helm-execute-persistent-action)
@@ -177,6 +190,7 @@
 
 ;; evil settings
 (load-subconfig "treemacs.el")
+(load-subconfig "org.el")
 (evil-define-key 'treemacs treemacs-mode-map (kbd "h") #'treemacs-TAB-action)
 (evil-define-key 'treemacs treemacs-mode-map (kbd "l") #'treemacs-TAB-action)
 
@@ -356,6 +370,7 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)) 
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 (setq elpy-rpc-virtualenv-path 'current)
+(setq-default mode-require-final-newline nil)
 
 
 ;; Setting font name/size
@@ -381,6 +396,8 @@
 
 (global-auto-revert-mode t)
 (global-visual-line-mode)
+
+(yas-global-mode 1)
 
 (use-package 
   yaml-mode 
