@@ -30,9 +30,16 @@
 (use-package 
   general 
   :ensure t)
+ 
 (use-package 
   all-the-icons 
   :ensure t)
+
+(use-package 
+  all-the-icons-dired
+  :ensure t)
+
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (use-package 
   doom-themes 
@@ -70,6 +77,7 @@
 		    'with-editor-cancel) 
   :ensure t)
 
+(setq evil-want-C-i-jump nil)
 
 (use-package 
   evil 
@@ -436,6 +444,17 @@
 ;; (load-subconfig "icons-in-term.el")
 (add-to-list 'load-path "~/.local/share/icons-in-terminal/")
 
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+
 ;; (add-hook 'python-mode-hook (lambda () (pyvenv-workon "cv")))
 
 (custom-set-variables
@@ -446,12 +465,12 @@
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" "93ed23c504b202cf96ee591138b0012c295338f38046a1f3c14522d4a64d7308" "bf387180109d222aee6bb089db48ed38403a1e330c9ec69fe1f52460a8936b66" "912cac216b96560654f4f15a3a4d8ba47d9c604cbc3b04801e465fb67a0234f0" "2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" "dcdd1471fde79899ae47152d090e3551b889edf4b46f00df36d653adc2bf550d" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "632694fd8a835e85bcc8b7bb5c1df1a0164689bc6009864faed38a9142b97057" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
+    ("76bfa9318742342233d8b0b42e824130b3a50dcc732866ff8e47366aed69de11" "99ea831ca79a916f1bd789de366b639d09811501e8c092c85b2cb7d697777f93" "93ed23c504b202cf96ee591138b0012c295338f38046a1f3c14522d4a64d7308" "bf387180109d222aee6bb089db48ed38403a1e330c9ec69fe1f52460a8936b66" "912cac216b96560654f4f15a3a4d8ba47d9c604cbc3b04801e465fb67a0234f0" "2f1518e906a8b60fac943d02ad415f1d8b3933a5a7f75e307e6e9a26ef5bf570" "dcdd1471fde79899ae47152d090e3551b889edf4b46f00df36d653adc2bf550d" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "632694fd8a835e85bcc8b7bb5c1df1a0164689bc6009864faed38a9142b97057" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" default)))
  '(global-text-scale-mode t)
  '(helm-completion-style (quote emacs))
  '(package-selected-packages
    (quote
-    (nerd-fonts nerd-icons json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
+    (all-the-icons-dired nerd-fonts nerd-icons json-mode calfw-ical calfw-org calfw ranger base16-theme dracula-theme yaml-mode persp-mode evil-collection helm-ag flycheck elpy helm-company org-bullets helm-org evil-org nlinum pyvenv pyenv smooth-scroll winum which-key use-package treemacs-projectile treemacs-icons-dired treemacs-evil sublimity smooth-scrolling nord-theme neotree key-chord helm-swoop helm-projectile general evil-surround evil-magit evil-commentary doom-modeline company carbon-now-sh anaconda-mode)))
  '(persp-mode t nil (persp-mode))
  '(treemacs-follow-mode t))
 (custom-set-faces
